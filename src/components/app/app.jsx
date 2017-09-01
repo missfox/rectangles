@@ -6,6 +6,6 @@ export class App extends Component {
   }
 
   render() {
-    return <div className="app">Hello world</div>;
+    return <div className="app">{this.props.children}</div>;
   }
 }

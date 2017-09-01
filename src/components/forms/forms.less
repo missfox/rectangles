@@ -1,0 +1,29 @@
+@import '../../styles/vars';
+
+.form {
+  display: flex;
+  flex-flow: column;
+  margin: 0;
+
+  &__row {
+    display: flex;
+    flex-flow: row;
+    margin: @verticalIndent 0;
+  }
+
+  &__column {
+    margin: 0 @horizontalIndent;
+
+    &:first-child {
+      margin-left: 0;
+    }
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+
+  &__footer {
+    margin: @verticalIndent*2 0;
+  }
+}

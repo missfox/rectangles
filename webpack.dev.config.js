@@ -77,12 +77,12 @@ module.exports = {
   ],
   resolve: {
     modules: [path.join(__dirname, 'src'), 'node_modules'],
-    moduleExtensions: ['.js'],
-    extensions: ['.css', '.js', '.jsx', '.html', '.json'],
+    moduleExtensions: ['.js', '.css'],
+    extensions: ['.css', '.js', '.jsx', '.html', '.json', '.less'],
   },
   resolveLoader: {
-    modules: ['node_modules'],
-    extensions: ['.css', '.js', '.jsx', '.html', '.json'],
+    modules: ['./', 'node_modules'],
+    extensions: ['.css', '.js', '.jsx', '.html', '.json', '.less'],
   },
   devServer: {
     host: 'localhost',
