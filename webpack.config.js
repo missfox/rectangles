@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/href-no-hash */
 const webpack = require('webpack');
 const path = require('path');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
@@ -27,7 +26,7 @@ const compressOptions = {
 };
 
 module.exports = {
-  entry: path.join(__dirname, 'src', 'index'),
+  entry: path.join(__dirname, 'src', 'index.html'),
   output: {
     path: path.join(__dirname, 'dist'),
     filename: 'js/[name].[chunkhash].js',
@@ -37,7 +36,24 @@ module.exports = {
       {
         test: /\.js$/,
         include: path.join(__dirname, 'src'),
-        exclude: /(node_modules|bower_components)/,
+        exclude: /node_modules/,
+        use: [
+          {
+            loader: 'babel-loader',
+          },
+        ],
+      },
+      {
+        test: /\.html$/,
+        loader: 'html-loader',
+        options: {
+          interpolate: true,
+        },
+      },
+      {
+        test: /\.jsx$/,
+        include: path.join(__dirname, 'src'),
+        exclude: /node_modules/,
         use: [
           {
             loader: 'babel-loader',
@@ -94,16 +110,17 @@ module.exports = {
     }),
     new HtmlWebpackPlugin({
       filename: 'index.html',
-      chunks: ['main'],
+      template: 'src/index.html',
     }),
   ],
   resolve: {
     modules: [path.join(__dirname, 'src'), 'node_modules'],
-    moduleExtensions: ['css', 'js', 'html'],
+    moduleExtensions: ['.js'],
+    extensions: ['.css', '.js', '.jsx', '.html', '.json'],
   },
   resolveLoader: {
     modules: ['node_modules'],
-    extensions: ['.js', '.json'],
+    extensions: ['.css', '.js', '.jsx', '.html', '.json'],
   },
   devtool: false,
 };

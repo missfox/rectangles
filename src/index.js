@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { App } from './containers/app/app';
+import { AppContainer } from './containers/app/app';
 
 const reactAppSelector = document.querySelector('.react-app');
-ReactDOM.render(<App/>, reactAppSelector);
+ReactDOM.render(<AppContainer />, reactAppSelector);

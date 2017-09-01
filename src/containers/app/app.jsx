@@ -1,13 +1,8 @@
 import React from 'react';
+import { App } from '../../components/app/app';
 
-export const App = class extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
+export class AppContainer extends React.Component {
   render() {
-    return (
-      <div className="app"/>
-    );
+    return <App />;
   }
-};
+}

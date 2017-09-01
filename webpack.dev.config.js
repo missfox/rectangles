@@ -17,16 +17,8 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.jsx$/,
-        exclude: /node_modules/,
-        use: [
-          {
-            loader: 'babel-loader',
-          },
-        ],
-      },
-      {
         test: /\.js$/,
+        include: path.join(__dirname, 'src'),
         exclude: /node_modules/,
         use: [
           {
@@ -35,8 +27,14 @@ module.exports = {
         ],
       },
       {
-        test: require.resolve('react'),
-        use: 'expose-loader?React',
+        test: /\.jsx$/,
+        include: path.join(__dirname, 'src'),
+        exclude: /node_modules/,
+        use: [
+          {
+            loader: 'babel-loader',
+          },
+        ],
       },
       {
         test: /\.less$/,
@@ -74,16 +72,17 @@ module.exports = {
     }),
     new HtmlWebpackPlugin({
       filename: 'index.html',
-      chunks: ['main'],
+      template: path.join(__dirname, 'src', 'index.html'),
     }),
   ],
   resolve: {
-    modules: [path.join(__dirname, 'src'), path.join(__dirname, 'node_modules')],
-    moduleExtensions: ['.css', '.js', '.jsx', '.html'],
+    modules: [path.join(__dirname, 'src'), 'node_modules'],
+    moduleExtensions: ['.js'],
+    extensions: ['.css', '.js', '.jsx', '.html', '.json'],
   },
   resolveLoader: {
     modules: ['node_modules'],
-    extensions: ['.js', '.json'],
+    extensions: ['.css', '.js', '.jsx', '.html', '.json'],
   },
   devServer: {
     host: 'localhost',
