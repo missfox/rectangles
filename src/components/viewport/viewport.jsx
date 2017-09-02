@@ -1,13 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Dimensions from 'react-dimensions';
 import Rectangle from '../rectangle/rectangle';
 
 const propTypes = {
   data: PropTypes.object,
+  containerWidth: PropTypes.any,
 };
 
 const defaultProps = {
   data: {},
+  containerWidth: '',
 };
 
 class Viewport extends React.Component {
@@ -23,15 +26,28 @@ class Viewport extends React.Component {
     }
 
     this.state = {
-      viewportWidth: window.width,
+      viewportWidth: this.props.containerWidth,
       maxElementCount: 5,
       elements: cachedElements,
     };
   }
 
+  get allElementsWidth() {
+    const elements = this.state.elements;
+    const { width } = this.props.data || 0;
+    let elementsWidth = 0;
+    elements.forEach((item) => {
+      elementsWidth += item.width;
+    });
+    return elementsWidth + width;
+  }
+
   render() {
     const data = this.props.data;
-    if (this.state.elements.length <= this.state.maxElementCount && !!data) {
+    const calculatedWidth = this.allElementsWidth;
+    if (this.state.elements.length < this.state.maxElementCount
+      && !!data
+      && calculatedWidth <= this.state.viewportWidth) {
       this.state.elements.push(data);
     }
 
@@ -57,4 +73,4 @@ class Viewport extends React.Component {
 Viewport.propTypes = propTypes;
 Viewport.defaultProps = defaultProps;
 
-export default Viewport;
+export default Dimensions()(Viewport);
