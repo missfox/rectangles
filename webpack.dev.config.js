@@ -9,7 +9,10 @@ const extractLess = new ExtractTextPlugin({
 });
 
 module.exports = {
-  entry: path.join(__dirname, 'src', 'index'),
+  entry: [
+    path.join(__dirname, 'src', 'index'),
+    path.join(__dirname, 'src/styles', 'index.less'),
+  ],
   output: {
     path: path.join(__dirname, 'dist'),
     filename: 'js/[name].js',

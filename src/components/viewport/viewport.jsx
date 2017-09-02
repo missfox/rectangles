@@ -1,12 +1,20 @@
-import React from 'react';
-import { Rectangle } from '../rectangle/rectangle';
+import React, { PropTypes } from 'react';
+import Rectangle from '../rectangle/rectangle';
 
-export class Viewport extends React.Component {
+const propTypes = {
+  data: PropTypes.object,
+};
+
+const defaultProps = {
+  data: {},
+};
+
+class Viewport extends React.Component {
   constructor(props) {
     super(props);
-    let cachedElements = [];
+    const cachedElements = [];
 
-    for (let i = 0; i < localStorage.length; i++) {
+    for (let i = 0; i < localStorage.length; i += 1) {
       if (localStorage.key(i).includes('item')) {
         const item = JSON.parse(localStorage.getItem(localStorage.key(i)));
         cachedElements.push(item);
@@ -22,15 +30,19 @@ export class Viewport extends React.Component {
 
   render() {
     const data = this.props.data;
-    let rectangles;
-    if (this.state.elements.length < 6 && !!data) {
+    if (this.state.elements.length <= this.state.maxElementCount && !!data) {
       this.state.elements.push(data);
     }
 
-    rectangles = this.state.elements.map((item, index) => {
+    const rectangles = this.state.elements.map((item, index) => {
       localStorage.setItem(`item-${index}`, JSON.stringify(item));
-      return <Rectangle width={item.width} height={item.height}
-                        left={item.posX} top={item.posY} key={index}/>;
+      return (<Rectangle
+        width={item.width}
+        height={item.height}
+        left={item.posX}
+        top={item.posY}
+        key={index}
+      />);
     });
 
     return (
@@ -40,3 +52,8 @@ export class Viewport extends React.Component {
     );
   }
 }
+
+Viewport.propTypes = propTypes;
+Viewport.defaultProps = defaultProps;
+
+export default Viewport;

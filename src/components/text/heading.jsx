@@ -1,5 +1,11 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 
-export const Heading = (props) => {
-  return <h1 className="heading">{props.text}</h1>;
+const propTypes = {
+  text: PropTypes.string.isRequired,
 };
+
+const Heading = ({ text }) => <h1 className="heading">{text}</h1>;
+
+Heading.propTypes = propTypes;
+
+export default Heading;

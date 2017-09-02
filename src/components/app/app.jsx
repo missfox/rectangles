@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import React, { PropTypes } from 'react';
 
-export class App extends Component {
-  constructor() {
-    super();
-  }
+const propTypes = {
+  children: PropTypes.element.isRequired,
+};
 
-  render() {
-    return <div className="app">{this.props.children}</div>;
-  }
-}
+const App = ({ children }) => <div className="app">{children}</div>;
+
+App.propTypes = propTypes;
+
+export default App;

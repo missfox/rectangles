@@ -1,9 +1,27 @@
-import React from 'react';
-import { Label } from '../label/label';
-import { Input } from '../input/input';
+import React, { PropTypes } from 'react';
+import Label from '../label/label';
+import Input from '../input/input';
 
-export const Field = (props) => {
-  const { type = 'text', id, name, label, className, labelClassName, onChange } = props;
+const defaultOnChange = () => console.warn('Field onChange is not defined');
+
+const propTypes = {
+  type: PropTypes.string,
+  id: PropTypes.string.isRequired,
+  className: PropTypes.string,
+  labelClassName: PropTypes.string,
+  label: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  onChange: PropTypes.func,
+};
+const defaultProps = {
+  type: 'text',
+  className: 'field',
+  labelClassName: 'label',
+  onChange: defaultOnChange,
+};
+
+const Field = (props) => {
+  const { type, id, name, label, className, labelClassName, onChange } = props;
 
   return (
     <div className="field">
@@ -12,3 +30,8 @@ export const Field = (props) => {
     </div>
   );
 };
+
+Field.propTypes = propTypes;
+Field.defaultProps = defaultProps;
+
+export default Field;
