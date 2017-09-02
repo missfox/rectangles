@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import Rectangle from '../rectangle/rectangle';
 
 const propTypes = {
@@ -14,7 +15,7 @@ class Viewport extends React.Component {
     super(props);
     const cachedElements = [];
 
-    for (let i = 0; i < localStorage.length; i += 1) {
+    for (let i = 0; i < localStorage.length; i++) {
       if (localStorage.key(i).includes('item')) {
         const item = JSON.parse(localStorage.getItem(localStorage.key(i)));
         cachedElements.push(item);
@@ -41,7 +42,7 @@ class Viewport extends React.Component {
         height={item.height}
         left={item.posX}
         top={item.posY}
-        key={index}
+        key={item.id}
       />);
     });
 

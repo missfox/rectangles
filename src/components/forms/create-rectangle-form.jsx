@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import Field from '../fields/fields';
 import Button from '../button/button';
 
@@ -17,7 +18,15 @@ const defaultProps = {
 class CreateRectangleForm extends React.Component {
   constructor(props) {
     super(props);
+    const num = [];
+    for (let i = 0; i < localStorage.length; i++) {
+      if (localStorage.key(i).includes('item')) {
+        num.push(parseInt(localStorage.key(i).substr(5, 6), 10) + 1);
+      }
+    }
+
     this.state = {
+      id: Math.max(...num) !== -Infinity ? Math.max(...num) : 0,
       width: null,
       height: null,
       posX: null,
@@ -36,6 +45,10 @@ class CreateRectangleForm extends React.Component {
 
   handleClick() {
     const { onUpdate } = this.props;
+    const lastId = ++this.state.id;
+    this.setState({
+      id: lastId,
+    });
     onUpdate(this.state);
   }
 
