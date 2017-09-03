@@ -3,25 +3,18 @@ import PropTypes from 'prop-types';
 import Field from '../fields/fields';
 import Button from '../button/button';
 
-const defaultOnUpdate = () => console.warn('CreateRectangleForm onUpdate is not defined');
-
 const propTypes = {
-  onUpdate: PropTypes.func,
+  viewportWidth: PropTypes.number.isRequired,
+  onUpdate: PropTypes.func.isRequired,
 };
-
-const defaultProps = {
-  onUpdate: defaultOnUpdate,
-};
-
-// TODO: validation
 
 class CreateRectangleForm extends React.Component {
   constructor(props) {
     super(props);
     const num = [];
-    for (let i = 0; i < localStorage.length; i++) {
-      if (localStorage.key(i).includes('item')) {
-        num.push(parseInt(localStorage.key(i).substr(5, 6), 10) + 1);
+    for (let i = 0; i < sessionStorage.length; i++) {
+      if (sessionStorage.key(i).includes('item')) {
+        num.push(parseInt(sessionStorage.key(i).substr(5, 6), 10) + 1);
       }
     }
 
@@ -38,23 +31,47 @@ class CreateRectangleForm extends React.Component {
   }
 
   handleChange(e) {
+    let val = e.target.value;
+    val = parseInt(e.target.value.replace(/[^0-9]/gi, ''), 10) || 0;
+    e.target.value = val;
+
     this.setState({
-      [e.target.name]: parseInt(e.target.value, 10),
+      [e.target.name]: val,
     });
   }
 
   handleClick() {
     const { onUpdate } = this.props;
     const lastId = ++this.state.id;
+    let isValid;
     this.setState({
       id: lastId,
     });
-    onUpdate(this.state);
+    for (const [key, value] of Object.entries(this.state)) {
+      if (!value || parseInt(value, 10) === 0) {
+        isValid = false;
+        break;
+      }
+
+      isValid = true;
+    }
+
+    if (isValid) {
+      onUpdate(this.state);
+    } else {
+      alert('Data is not valid');
+    }
   }
 
   render() {
     return (
       <form className="form">
+        <div className="form__row">
+          You can only use digits. All another symbols types will be replaced.
+          <br />
+          You can create only five rectangles.
+          The sum of widths cannot be larger than the viewport width ({this.props.viewportWidth}px).
+        </div>
         <div className="form__row">
           <div className="form__column">
             <Field
@@ -119,6 +136,5 @@ class CreateRectangleForm extends React.Component {
 }
 
 CreateRectangleForm.propTypes = propTypes;
-CreateRectangleForm.defaultProps = defaultProps;
 
 export default CreateRectangleForm;

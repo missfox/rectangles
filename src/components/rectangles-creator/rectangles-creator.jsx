@@ -6,11 +6,26 @@ import Viewport from '../viewport/viewport';
 class RectangleCreator extends React.Component {
   constructor(props) {
     super(props);
-    this.onUpdate = this.onUpdate.bind(this);
+
+    this.state = {
+      data: {},
+      viewportWidth: 0,
+    };
+
+    this.handleUpdate = this.handleUpdate.bind(this);
+    this.getViewportWidth = this.getViewportWidth.bind(this);
   }
 
-  onUpdate(data) {
-    this.setState(data);
+  getViewportWidth(width) {
+    this.setState({
+      viewportWidth: width,
+    });
+  }
+
+  handleUpdate(item) {
+    this.setState({
+      data: item,
+    });
   }
 
   render() {
@@ -18,9 +33,15 @@ class RectangleCreator extends React.Component {
       <div className="rectangles-creator">
         <div className="rectangles-creator__set-settings">
           <Heading text="Create your own rectangles" />
-          <CreateRectangleForm onUpdate={this.onUpdate} />
+          <CreateRectangleForm
+            onUpdate={this.handleUpdate}
+            viewportWidth={this.state.viewportWidth}
+          />
         </div>
-        <Viewport data={this.state} />
+        <Viewport
+          data={this.state.data}
+          onGetWidth={this.getViewportWidth}
+        />
       </div>
     );
   }
