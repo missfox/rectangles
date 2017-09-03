@@ -6,7 +6,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const LessPluginCleanCSS = require('less-plugin-clean-css');
 
 const extractLess = new ExtractTextPlugin({
-  filename: 'styles/[name].[contenthash].css',
+  filename: 'styles/[name].css',
   disable: false,
   allChunks: true,
 });
@@ -26,10 +26,13 @@ const compressOptions = {
 };
 
 module.exports = {
-  entry: path.join(__dirname, 'src', 'index.html'),
+  entry: [
+    path.join(__dirname, 'src', 'index'),
+    path.join(__dirname, 'src/styles', 'index.less'),
+  ],
   output: {
     path: path.join(__dirname, 'dist'),
-    filename: 'js/[name].[chunkhash].js',
+    filename: 'js/[name].js',
   },
   module: {
     rules: [
