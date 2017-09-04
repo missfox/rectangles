@@ -12,9 +12,9 @@ class CreateRectangleForm extends React.Component {
   constructor(props) {
     super(props);
     const num = [];
-    for (let i = 0; i < sessionStorage.length; i++) {
-      if (sessionStorage.key(i).includes('item')) {
-        num.push(parseInt(sessionStorage.key(i).substr(5, 6), 10) + 1);
+    for (let i = 0; i < localStorage.length; i++) {
+      if (localStorage.key(i).includes('item')) {
+        num.push(parseInt(localStorage.key(i).substr(5, 6), 10) + 1);
       }
     }
 

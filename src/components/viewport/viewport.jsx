@@ -26,9 +26,9 @@ class Viewport extends Component {
     super(props);
     const cachedElements = [];
 
-    for (let i = 0; i < sessionStorage.length; i++) {
-      if (sessionStorage.key(i).includes('item')) {
-        const item = JSON.parse(sessionStorage.getItem(sessionStorage.key(i)));
+    for (let i = 0; i < localStorage.length; i++) {
+      if (localStorage.key(i).includes('item')) {
+        const item = JSON.parse(localStorage.getItem(localStorage.key(i)));
         cachedElements.push(item);
       }
     }
@@ -77,7 +77,7 @@ class Viewport extends Component {
 
   render() {
     const rectangles = this.state.elements.map((item, index) => {
-      sessionStorage.setItem(`item-${index}`, JSON.stringify(item));
+      localStorage.setItem(`item-${index}`, JSON.stringify(item));
       return (<Rectangle
         width={item.width}
         height={item.height}
