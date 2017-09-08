@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Dimensions from 'react-dimensions';
 import Rectangle from '../rectangle/rectangle';
 
 const defaultOnGetWidth = () => {
@@ -9,16 +8,12 @@ const defaultOnGetWidth = () => {
 
 const propTypes = {
   data: PropTypes.object,
-  containerWidth: PropTypes.any,
   onGetWidth: PropTypes.func,
-  shouldClear: PropTypes.bool,
 };
 
 const defaultProps = {
   data: {},
-  containerWidth: '',
   onGetWidth: defaultOnGetWidth,
-  shouldClear: false,
 };
 
 class Viewport extends Component {
@@ -34,36 +29,39 @@ class Viewport extends Component {
     }
 
     this.state = {
-      viewportWidth: this.props.containerWidth || 0,
       maxElementCount: 5,
       calculatedWith: 0,
       elements: cachedElements,
-      shouldClear: this.props.shouldClear,
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     if (this.props.onGetWidth) {
-      this.props.onGetWidth(this.props.containerWidth);
+      this.props.onGetWidth(this.viewport.offsetWidth);
     }
   }
 
   componentWillReceiveProps(nextProps) {
     const data = nextProps.data;
-    const calculatedWidth = this.allElementsWidth + data.width;
+    const dataWidth = data.width || 0;
+    const calculatedWidth = this.allElementsWidth + dataWidth;
 
-    if (this.state.elements.length <= this.state.maxElementCount
-        && calculatedWidth <= this.state.viewportWidth) {
-      this.setState({
-        calculatedWidth: this.allElementsWidth,
-      });
-      this.state.elements.push(data);
+    if (!(Object.keys(data).length === 0 && data.constructor === Object)) {
+      if (this.state.elements.length <= this.state.maxElementCount
+        && calculatedWidth <= this.viewport.offsetWidth) {
+        this.setState({
+          calculatedWidth: this.allElementsWidth,
+        });
+        this.state.elements.push(data);
+      } else {
+        alert('Inappropriate data');
+      }
     }
   }
 
   shouldComponentUpdate() {
     return this.state.elements.length <= this.state.maxElementCount
-      && this.state.calculatedWith <= this.state.viewportWidth;
+      && this.state.calculatedWith <= this.viewport.offsetWidth;
   }
 
   get allElementsWidth() {
@@ -88,7 +86,11 @@ class Viewport extends Component {
     });
 
     return (
-      <div className="viewport">
+      <div className="viewport"
+        ref={(viewport) => {
+          this.viewport = viewport;
+        }}
+      >
         {rectangles}
       </div>
     );
@@ -98,4 +100,4 @@ class Viewport extends Component {
 Viewport.propTypes = propTypes;
 Viewport.defaultProps = defaultProps;
 
-export default Dimensions()(Viewport);
+export default Viewport;

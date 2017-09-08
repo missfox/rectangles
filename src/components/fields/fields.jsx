@@ -26,8 +26,8 @@ const Field = (props) => {
 
   return (
     <div className="field">
-      <Label text={label} inputId={id} className={labelClassName} />
-      <Input type={type} id={id} name={name} className={className} onChange={onChange} />
+      <Label text={label} inputId={id} className={labelClassName}/>
+      <Input type={type} id={id} name={name} className={className} onChange={onChange}/>
     </div>
   );
 };

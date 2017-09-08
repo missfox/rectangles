@@ -19,7 +19,7 @@ class CreateRectangleForm extends React.Component {
     }
 
     this.state = {
-      id: Math.max(...num) !== -Infinity ? Math.max(...num) : 0,
+      id: Number.isFinite(Math.max(...num)) ? Math.max(...num) : 0,
       width: null,
       height: null,
       posX: null,

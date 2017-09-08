@@ -3,4 +3,8 @@
 .rectangle {
   position: absolute;
   background: @rectangleColor;
+  @media print {
+    -webkit-filter: invert(100%);
+    filter: invert(1);
+  }
 }

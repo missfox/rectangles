@@ -6,6 +6,7 @@ html, body {
   height: 100%;
   width: 100%;
   font-size: @baseFontSize;
+  background-color: #ffffff;
 }
 
 body {
@@ -16,4 +17,11 @@ body {
 .react-app {
   height: 100%;
   width: 100%;
+}
+
+@media print {
+  html {
+    -webkit-filter: invert(100%);
+    filter: invert(1);
+  }
 }
